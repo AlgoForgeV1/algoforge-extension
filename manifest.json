@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "description": "Capture and analyze coding problems with AlgoForge.",
   "permissions": [
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
     "https://leetcode.com/*"

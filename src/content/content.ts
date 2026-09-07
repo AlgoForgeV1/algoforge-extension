@@ -19,6 +19,26 @@ let routeChangeVersion = 0;
 let panelWasOpenDuringNavigation = false;
 
 /* =======================================================
+   EXTENSION ASSET URL
+======================================================= */
+
+function getExtensionAssetUrl(
+  path: string
+): string {
+  try {
+    return chrome.runtime.getURL(path);
+  } catch {
+    /*
+     * Chrome invalidates content-script extension contexts
+     * when the unpacked extension is reloaded. Returning an
+     * empty URL prevents the old page from throwing repeatedly.
+     */
+
+    return "";
+  }
+}
+
+/* =======================================================
    ROOT
 ======================================================= */
 
@@ -476,7 +496,7 @@ function renderLauncher(): void {
       title="Analyze"
     >
       <img
-        src="${chrome.runtime.getURL(
+        src="${getExtensionAssetUrl(
           "images/forgey.png"
         )}"
         alt="Forgey"
@@ -540,7 +560,7 @@ function renderCapturePanel(
 
           <div class="algoforge-brand-icon">
             <img
-              src="${chrome.runtime.getURL(
+              src="${getExtensionAssetUrl(
                 "images/forgey.png"
               )}"
               alt="Forgey"
@@ -706,7 +726,7 @@ function renderAnalysis(): void {
 
           <div class="algoforge-brand-icon">
             <img
-              src="${chrome.runtime.getURL(
+              src="${getExtensionAssetUrl(
                 "images/forgey.png"
               )}"
               alt="Forgey"
@@ -743,7 +763,7 @@ function renderAnalysis(): void {
         <div class="algoforge-analysis-forgey">
 
           <img
-            src="${chrome.runtime.getURL(
+            src="${getExtensionAssetUrl(
               "images/forgey.png"
             )}"
             alt="Forgey"
@@ -814,11 +834,20 @@ function renderAnalysis(): void {
       type: "ANALYZE_PROBLEM",
       problem: currentProblem
     },
-    () => {
+    (response) => {
       if (chrome.runtime.lastError) {
         console.debug(
-          "AlgoForge backend connection pending:",
+          "AlgoForge extension context is no longer available:",
           chrome.runtime.lastError.message
+        );
+
+        return;
+      }
+
+      if (!response?.success) {
+        console.debug(
+          "AlgoForge could not capture the solution code:",
+          response?.message
         );
       }
     }
@@ -987,7 +1016,7 @@ function renderProblemChangePanel(): void {
 
           <div class="algoforge-brand-icon">
             <img
-              src="${chrome.runtime.getURL(
+              src="${getExtensionAssetUrl(
                 "images/forgey.png"
               )}"
               alt="Forgey"
@@ -1021,7 +1050,7 @@ function renderProblemChangePanel(): void {
 
         <div class="algoforge-change-forgey">
           <img
-            src="${chrome.runtime.getURL(
+            src="${getExtensionAssetUrl(
               "images/forgey.png"
             )}"
             alt="Forgey"
