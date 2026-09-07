@@ -1,0 +1,1439 @@
+/* =========================================================
+   ALGOFORGE EXTENSION
+========================================================= */
+
+#algoforge-extension-root {
+  position: fixed;
+  inset: 0;
+
+  z-index: 2147483647;
+
+  pointer-events: none;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#algoforge-extension-root *,
+#algoforge-extension-root *::before,
+#algoforge-extension-root *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FLOATING FORGEY BUTTON
+========================================================= */
+
+.algoforge-launcher {
+  position: fixed;
+
+  right: 22px;
+  bottom: 22px;
+
+  width: 60px;
+  height: 60px;
+
+  padding: 6px;
+
+  border: 1px solid #30343b;
+  border-radius: 50%;
+
+  background: #17191e;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.35);
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-launcher {
+  background: #ffffff;
+
+  border-color: #dedfe3;
+
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.16);
+}
+
+.algoforge-launcher:hover {
+  transform: translateY(-2px) scale(1.03);
+
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.algoforge-launcher:active {
+  transform: scale(0.96);
+}
+
+.algoforge-launcher img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.algoforge-panel {
+  position: fixed;
+
+  right: 22px;
+  bottom: 22px;
+
+  width: 370px;
+
+  max-width:
+    calc(100vw - 32px);
+
+  max-height:
+    calc(100vh - 44px);
+
+  overflow: hidden;
+
+  pointer-events: auto;
+
+  background: #ffffff;
+
+  color: #18181b;
+
+  border: 1px solid #dedfe3;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.20),
+    0 8px 22px rgba(0, 0, 0, 0.08);
+
+  animation:
+    algoforge-panel-in
+    180ms
+    ease-out;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-panel {
+  background: #111318;
+
+  color: #f4f4f5;
+
+  border-color: #2b2f37;
+
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.55),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes algoforge-panel-in {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px)
+      scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.algoforge-header {
+  height: 76px;
+
+  padding:
+    16px 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-bottom:
+    1px solid #e7e7ea;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-header {
+  border-bottom-color: #292d35;
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.algoforge-brand {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+}
+
+.algoforge-brand-icon {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 11px;
+
+  background: #fff4e8;
+
+  border: 1px solid #ffe0bd;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-brand-icon {
+  background: #1c1814;
+
+  border-color: #3b2a1c;
+}
+
+.algoforge-brand-icon img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 3px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+.algoforge-brand-text {
+  min-width: 0;
+}
+
+.algoforge-brand-name {
+  color: #18181b;
+
+  font-size: 15px;
+
+  line-height: 20px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.25px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-brand-name {
+  color: #f8f8f8;
+}
+
+.algoforge-brand-subtitle {
+  margin-top: 1px;
+
+  color: #71717a;
+
+  font-size: 10px;
+
+  line-height: 15px;
+
+  font-weight: 450;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-brand-subtitle {
+  color: #969ba5;
+}
+
+/* =========================================================
+   HEADER BUTTONS
+========================================================= */
+
+.algoforge-header-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  flex-shrink: 0;
+}
+
+.algoforge-icon-button {
+  width: 32px;
+  height: 32px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #52525b;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.algoforge-icon-button:hover {
+  background: #f1f1f3;
+
+  color: #18181b;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-icon-button {
+  color: #a1a1aa;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-icon-button:hover {
+  background: #22252b;
+
+  color: #ffffff;
+}
+
+/* =========================================================
+   THEME ICON
+========================================================= */
+
+.theme-icon {
+  position: relative;
+
+  width: 16px;
+  height: 16px;
+
+  display: block;
+}
+
+/* SUN */
+
+.theme-sun::before {
+  content: "";
+
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  left: 4.5px;
+  top: 4.5px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+
+  box-shadow:
+    0 -6px 0 -2.5px currentColor,
+    0 6px 0 -2.5px currentColor,
+    6px 0 0 -2.5px currentColor,
+    -6px 0 0 -2.5px currentColor,
+    4.2px 4.2px 0 -2.5px currentColor,
+    -4.2px -4.2px 0 -2.5px currentColor,
+    4.2px -4.2px 0 -2.5px currentColor,
+    -4.2px 4.2px 0 -2.5px currentColor;
+}
+
+/* MOON */
+
+.theme-moon::before {
+  content: "";
+
+  position: absolute;
+
+  width: 13px;
+  height: 13px;
+
+  left: 1px;
+  top: 1px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+.theme-moon::after {
+  content: "";
+
+  position: absolute;
+
+  width: 13px;
+  height: 13px;
+
+  left: 5px;
+  top: -1px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.theme-moon::after {
+  background: #111318;
+}
+
+/* =========================================================
+   CLOSE ICON
+========================================================= */
+
+.close-icon {
+  display: block;
+
+  width: 20px;
+  height: 20px;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 20px;
+
+  line-height: 19px;
+
+  font-weight: 400;
+
+  text-align: center;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.algoforge-content {
+  padding:
+    25px 24px 21px;
+}
+
+/* =========================================================
+   PROBLEM NUMBER
+========================================================= */
+
+.algoforge-problem-number {
+  margin-bottom: 8px;
+
+  color: #f97316;
+
+  font-size: 10px;
+
+  line-height: 15px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.85px;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.algoforge-problem-title {
+  margin: 0;
+
+  color: #18181b;
+
+  font-size: 24px;
+
+  line-height: 31px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.55px;
+
+  word-break: break-word;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-problem-title {
+  color: #fafafa;
+}
+
+/* =========================================================
+   INFO CARD
+========================================================= */
+
+.algoforge-info {
+  margin-top: 23px;
+
+  padding:
+    3px 15px;
+
+  background: #fafafa;
+
+  border:
+    1px solid #e4e4e7;
+
+  border-radius: 14px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-info {
+  background: #191b21;
+
+  border-color: #2d3139;
+}
+
+/* =========================================================
+   INFO ROW
+========================================================= */
+
+.algoforge-info-row {
+  min-height: 56px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.algoforge-info-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: #52525b;
+
+  font-size: 12px;
+
+  line-height: 18px;
+
+  font-weight: 550;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-info-label {
+  color: #a1a1aa;
+}
+
+/* =========================================================
+   INFO ICON
+========================================================= */
+
+.info-icon {
+  width: 23px;
+  height: 23px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: #fff0e3;
+
+  color: #ea580c;
+
+  font-size: 8px;
+
+  font-weight: 800;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.info-icon {
+  background: #2a1d13;
+
+  color: #fb923c;
+}
+
+/* =========================================================
+   VALUE
+========================================================= */
+
+.algoforge-info-value {
+  color: #18181b;
+
+  font-size: 13px;
+
+  line-height: 18px;
+
+  font-weight: 700;
+
+  text-align: right;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-info-value {
+  color: #f4f4f5;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.algoforge-divider {
+  height: 1px;
+
+  background: #e5e5e8;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-divider {
+  background: #2b2f36;
+}
+
+/* =========================================================
+   DIFFICULTY
+========================================================= */
+
+.algoforge-difficulty {
+  padding:
+    5px 10px;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+
+  line-height: 15px;
+
+  font-weight: 750;
+}
+
+.algoforge-difficulty.easy {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.algoforge-difficulty.medium {
+  background: #fef3c7;
+
+  color: #a16207;
+}
+
+.algoforge-difficulty.hard {
+  background: #fee2e2;
+
+  color: #dc2626;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-difficulty.easy {
+  background: #123321;
+
+  color: #4ade80;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-difficulty.medium {
+  background: #332810;
+
+  color: #fbbf24;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-difficulty.hard {
+  background: #35191b;
+
+  color: #f87171;
+}
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+.algoforge-primary-button {
+  position: relative;
+
+  width: 100%;
+  height: 54px;
+  min-height: 54px;
+
+  margin-top: 21px;
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 13px;
+
+  background: #17191e !important;
+
+  color: #ffffff !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: 700 !important;
+
+  text-align: center !important;
+  white-space: nowrap;
+
+  isolation: isolate;
+
+  box-shadow: none !important;
+
+  overflow: hidden;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+/*
+ * Gradient border.
+ * The inner pseudo-element creates the solid button surface,
+ * while the first pseudo-element exposes the orange gradient
+ * only around the edge.
+ */
+
+.algoforge-primary-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  padding: 1.5px;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      110deg,
+      #ff7a18 0%,
+      #ff9f43 45%,
+      #ff5f1f 100%
+    );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+/*
+ * Inner surface.
+ */
+
+.algoforge-primary-button::after {
+  content: "";
+
+  position: absolute;
+  inset: 2px;
+
+  border-radius: 11px;
+
+  background: #17191e;
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+.algoforge-primary-button:hover {
+  background: #202329 !important;
+
+  color: #ffffff !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: none !important;
+}
+
+.algoforge-primary-button:active {
+  transform: translateY(0);
+
+  box-shadow: none !important;
+}
+
+/* =========================================================
+   LIGHT MODE BUTTON
+========================================================= */
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-primary-button {
+  background: #ffffff !important;
+
+  color: #18181b !important;
+
+  text-shadow: none !important;
+
+  box-shadow: none !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-primary-button::after {
+  background: #ffffff;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-primary-button:hover {
+  background: #fffaf5 !important;
+
+  color: #18181b !important;
+}
+
+/*
+ * Explicitly target any text node rendered inside the button.
+ * This prevents LeetCode's page-level button rules from making
+ * the label white in light mode.
+ */
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-primary-button {
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-primary-button {
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.algoforge-footer {
+  margin:
+    12px 0 0;
+
+  color: #8a8a93;
+
+  font-size: 10px;
+
+  line-height: 16px;
+
+  text-align: center;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-footer {
+  color: #777d87;
+}
+
+/* =========================================================
+   ANALYSIS SCREEN
+========================================================= */
+
+.algoforge-analysis-content {
+  padding:
+    30px 24px 27px;
+
+  text-align: center;
+}
+
+.algoforge-analysis-forgey {
+  width: 125px;
+  height: 125px;
+
+  margin:
+    0 auto 12px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.algoforge-analysis-forgey img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+/* =========================================================
+   ANALYSIS TEXT
+========================================================= */
+
+.algoforge-analysis-status {
+  color: #18181b;
+
+  font-size: 18px;
+
+  line-height: 25px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.3px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-analysis-status {
+  color: #fafafa;
+}
+
+.analysis-dots span {
+  animation:
+    algoforge-dot
+    1.3s
+    infinite;
+}
+
+.analysis-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.analysis-dots span:nth-child(3) {
+  animation-delay: 0.30s;
+}
+
+@keyframes algoforge-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+  }
+
+  30% {
+    opacity: 1;
+  }
+}
+
+.algoforge-analysis-description {
+  margin:
+    7px 0 20px;
+
+  color: #71717a;
+
+  font-size: 11px;
+
+  line-height: 17px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-analysis-description {
+  color: #969ba5;
+}
+
+/* =========================================================
+   ANALYSIS PROBLEM
+========================================================= */
+
+.algoforge-analysis-problem {
+  padding:
+    13px 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  text-align: left;
+
+  background: #fafafa;
+
+  border:
+    1px solid #e4e4e7;
+
+  border-radius: 11px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-analysis-problem {
+  background: #191b21;
+
+  border-color: #2d3139;
+}
+
+.algoforge-analysis-problem span {
+  flex-shrink: 0;
+
+  color: #f97316;
+
+  font-size: 11px;
+
+  font-weight: 750;
+}
+
+.algoforge-analysis-problem strong {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #27272a;
+
+  font-size: 12px;
+
+  line-height: 17px;
+
+  font-weight: 600;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-analysis-problem strong {
+  color: #e4e4e7;
+}
+
+/* =========================================================
+   ANALYSIS LOADER
+========================================================= */
+
+.algoforge-analysis-loader {
+  margin-top: 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+}
+
+.algoforge-analysis-loader span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #f97316;
+
+  animation:
+    algoforge-loader
+    1.2s
+    infinite
+    ease-in-out;
+}
+
+.algoforge-analysis-loader span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.algoforge-analysis-loader span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes algoforge-loader {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+
+    transform:
+      translateY(0);
+  }
+
+  40% {
+    opacity: 1;
+
+    transform:
+      translateY(-4px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .algoforge-panel {
+    right: 12px;
+    bottom: 12px;
+
+    width:
+      calc(100vw - 24px);
+
+    border-radius: 18px;
+  }
+
+  .algoforge-content {
+    padding:
+      22px 18px 18px;
+  }
+
+  .algoforge-header {
+    padding:
+      14px 15px;
+  }
+
+  .algoforge-problem-title {
+    font-size: 22px;
+
+    line-height: 28px;
+  }
+
+  .algoforge-launcher {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+
+/* =========================================================
+   LIGHT MODE TEXT SAFETY
+   The extension is rendered on top of LeetCode, so these
+   explicit colors prevent host-page button/text rules from
+   leaking into the extension UI.
+========================================================= */
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-panel,
+#algoforge-extension-root[data-theme="light"]
+.algoforge-panel * {
+  color-scheme: light;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-brand-name {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-brand-subtitle {
+  color: #71717a !important;
+  -webkit-text-fill-color: #71717a !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-problem-title {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-info-label {
+  color: #52525b !important;
+  -webkit-text-fill-color: #52525b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-info-value {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-footer {
+  color: #71717a !important;
+  -webkit-text-fill-color: #71717a !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-analysis-status {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-analysis-description {
+  color: #71717a !important;
+  -webkit-text-fill-color: #71717a !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-analysis-problem strong {
+  color: #27272a !important;
+  -webkit-text-fill-color: #27272a !important;
+}
+
+
+/* =========================================================
+   PROBLEM CHANGE LOADING
+========================================================= */
+
+.algoforge-launcher.is-loading {
+  cursor: wait;
+
+  transform: none !important;
+}
+
+.algoforge-launcher.is-loading::before {
+  content: "";
+
+  position: absolute;
+  inset: 1px;
+
+  border-radius: 50%;
+
+  border: 2px solid transparent;
+
+  border-top-color: #f97316;
+  border-right-color: #ff9f43;
+
+  animation:
+    algoforge-launcher-spin
+    0.85s
+    linear
+    infinite;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+.algoforge-launcher.is-loading img {
+  opacity: 0.72;
+
+  transform: scale(0.88);
+
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+@keyframes algoforge-launcher-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.algoforge-change-loading {
+  min-height: 290px;
+
+  padding:
+    27px 24px 25px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.algoforge-change-forgey {
+  width: 104px;
+  height: 104px;
+
+  margin-bottom: 11px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.algoforge-change-forgey img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  animation:
+    algoforge-forgey-breathe
+    1.5s
+    ease-in-out
+    infinite;
+}
+
+@keyframes algoforge-forgey-breathe {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translateY(-4px)
+      scale(1.025);
+  }
+}
+
+.algoforge-change-title {
+  color: #18181b;
+
+  font-size: 17px;
+  line-height: 24px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.25px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-change-title {
+  color: #fafafa;
+}
+
+.algoforge-change-subtitle {
+  margin-top: 5px;
+
+  color: #71717a;
+
+  font-size: 11px;
+  line-height: 17px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-change-subtitle {
+  color: #969ba5;
+}
+
+.algoforge-progress {
+  width: 130px;
+  height: 3px;
+
+  margin-top: 19px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e7e7ea;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-progress {
+  background: #2b2f36;
+}
+
+.algoforge-progress span {
+  display: block;
+
+  width: 45%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f97316,
+      #ff9f43
+    );
+
+  animation:
+    algoforge-progress
+    1.15s
+    ease-in-out
+    infinite;
+}
+
+@keyframes algoforge-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+.algoforge-loading-spinner {
+  width: 16px;
+  height: 16px;
+
+  display: block;
+
+  border: 2px solid #e4e4e7;
+
+  border-top-color: #f97316;
+
+  border-radius: 50%;
+
+  animation:
+    algoforge-launcher-spin
+    0.75s
+    linear
+    infinite;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-loading-spinner {
+  border-color: #30343b;
+  border-top-color: #f97316;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-change-title {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.algoforge-change-subtitle {
+  color: #71717a !important;
+  -webkit-text-fill-color: #71717a !important;
+}

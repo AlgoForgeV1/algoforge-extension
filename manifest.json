@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "AlgoForge",
+  "version": "0.1.0",
+  "description": "Capture and analyze coding problems with AlgoForge.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://leetcode.com/*"
+  ],
+  "action": {
+    "default_title": "AlgoForge",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://leetcode.com/problems/*"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "css": [
+        "content/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "images/forgey.png"
+      ],
+      "matches": [
+        "https://leetcode.com/*"
+      ]
+    }
+  ]
+}

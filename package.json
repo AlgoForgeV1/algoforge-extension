@@ -1,0 +1,17 @@
+{
+  "name": "algoforge-extension",
+  "version": "0.1.0",
+  "description": "AlgoForge Chrome extension for capturing and analyzing coding problems.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.0.0"
+  }
+}
