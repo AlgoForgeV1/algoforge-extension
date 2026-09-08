@@ -584,6 +584,18 @@ function renderCapturePanel(
         <div class="algoforge-header-actions">
 
           <button
+            id="algoforge-github"
+            class="algoforge-icon-button github-button"
+            type="button"
+            aria-label="GitHub Revision Vault"
+            title="GitHub Revision Vault"
+          >
+            <span class="github-icon" aria-hidden="true">
+              ${getGitHubIconSvg()}
+            </span>
+          </button>
+
+          <button
             id="algoforge-theme"
             class="algoforge-icon-button theme-button"
             type="button"
@@ -885,6 +897,199 @@ function attachPanelEvents(): void {
       "click",
       toggleTheme
     );
+
+  document
+    .getElementById(
+      "algoforge-github"
+    )
+    ?.addEventListener(
+      "click",
+      handleGitHubClick
+    );
+}
+
+/* =======================================================
+   GITHUB REVISION VAULT
+======================================================= */
+
+function getGitHubIconSvg(): string {
+  return `
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        fill="currentColor"
+        d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.53-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.33.95.1-.74.4-1.24.73-1.52-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.77.11 3.06.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.67.41.36.78 1.08.78 2.18v3.23c0 .31.21.68.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"
+      />
+    </svg>
+  `;
+}
+
+function handleGitHubClick(): void {
+  const githubConnected =
+    localStorage.getItem("algoforge-github-connected") === "true";
+
+  if (!githubConnected) {
+    showGitHubConnectPanel();
+    return;
+  }
+
+  showGitHubRevisionPanel();
+}
+
+function showGitHubConnectPanel(): void {
+  const root = getRoot();
+
+  root.innerHTML = `
+    <section
+      class="algoforge-panel algoforge-github-panel"
+      role="dialog"
+      aria-label="Connect GitHub"
+    >
+      <header class="algoforge-header">
+        <div class="algoforge-brand">
+          <div class="algoforge-brand-icon">
+            <span class="github-panel-icon">
+              ${getGitHubIconSvg()}
+            </span>
+          </div>
+
+          <div class="algoforge-brand-text">
+            <div class="algoforge-brand-name">GitHub</div>
+            <div class="algoforge-brand-subtitle">Revision Vault</div>
+          </div>
+        </div>
+
+        <button
+          id="algoforge-github-close"
+          class="algoforge-icon-button close-button"
+          type="button"
+          aria-label="Close"
+          title="Close"
+        >
+          <span class="close-icon">×</span>
+        </button>
+      </header>
+
+      <div class="algoforge-github-content">
+        <div class="algoforge-github-hero">
+          <div class="algoforge-github-large-icon">
+            ${getGitHubIconSvg()}
+          </div>
+
+          <h2>Connect GitHub</h2>
+
+          <p>
+            Connect your GitHub account to save
+            AlgoForge problem summaries for revision.
+          </p>
+        </div>
+
+        <button
+          id="algoforge-connect-github"
+          class="algoforge-github-connect-button"
+          type="button"
+        >
+          Connect GitHub
+        </button>
+
+        <p class="algoforge-github-note">
+          GitHub authentication will be connected here.
+        </p>
+      </div>
+    </section>
+  `;
+
+  document
+    .getElementById("algoforge-github-close")
+    ?.addEventListener("click", renderLauncher);
+
+  document
+    .getElementById("algoforge-connect-github")
+    ?.addEventListener("click", () => {
+      window.open(
+        "https://github.com/settings/apps",
+        "_blank",
+        "noopener,noreferrer"
+      );
+    });
+}
+
+function showGitHubRevisionPanel(): void {
+  if (!currentProblem) {
+    renderLauncher();
+    return;
+  }
+
+  const root = getRoot();
+
+  root.innerHTML = `
+    <section
+      class="algoforge-panel algoforge-github-panel"
+      role="dialog"
+      aria-label="GitHub Revision Vault"
+    >
+      <header class="algoforge-header">
+        <div class="algoforge-brand">
+          <div class="algoforge-brand-icon">
+            <span class="github-panel-icon">
+              ${getGitHubIconSvg()}
+            </span>
+          </div>
+
+          <div class="algoforge-brand-text">
+            <div class="algoforge-brand-name">Revision Vault</div>
+            <div class="algoforge-brand-subtitle">GitHub connected</div>
+          </div>
+        </div>
+
+        <button
+          id="algoforge-github-close"
+          class="algoforge-icon-button close-button"
+          type="button"
+          aria-label="Close"
+          title="Close"
+        >
+          <span class="close-icon">×</span>
+        </button>
+      </header>
+
+      <div class="algoforge-github-content">
+        <div class="algoforge-github-problem">
+          <span>#${escapeHtml(currentProblem.number)}</span>
+          <strong>${escapeHtml(currentProblem.title)}</strong>
+        </div>
+
+        <p class="algoforge-github-description">
+          Forge a revision summary for this problem
+          and save it to your GitHub revision vault.
+        </p>
+
+        <button
+          id="algoforge-save-github"
+          class="algoforge-github-connect-button"
+          type="button"
+        >
+          Save to GitHub
+        </button>
+      </div>
+    </section>
+  `;
+
+  document
+    .getElementById("algoforge-github-close")
+    ?.addEventListener("click", renderLauncher);
+
+  document
+    .getElementById("algoforge-save-github")
+    ?.addEventListener("click", () => {
+      console.log(
+        "GitHub revision requested:",
+        currentProblem
+      );
+    });
 }
 
 /* =======================================================

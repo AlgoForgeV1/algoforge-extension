@@ -352,6 +352,213 @@
 }
 
 /* =========================================================
+   GITHUB BUTTON
+========================================================= */
+
+.github-button {
+  position: relative;
+}
+
+.github-icon {
+  width: 17px;
+  height: 17px;
+  display: block;
+  color: currentColor;
+  line-height: 0;
+  transition: transform 160ms ease, color 160ms ease;
+}
+
+.github-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.github-button:hover .github-icon {
+  transform: scale(1.05);
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.github-button {
+  color: #d4d4d8;
+}
+
+#algoforge-extension-root[data-theme="light"]
+.github-button {
+  color: #52525b;
+}
+
+/* =========================================================
+   GITHUB PANEL
+========================================================= */
+
+.algoforge-github-content {
+  padding: 28px 22px 24px;
+}
+
+.algoforge-github-hero {
+  text-align: center;
+}
+
+.algoforge-github-large-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: #18181b;
+  color: #ffffff;
+}
+
+.algoforge-github-large-icon svg {
+  width: 31px;
+  height: 31px;
+  display: block;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-large-icon {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.algoforge-github-hero h2 {
+  margin: 0;
+  color: #18181b;
+  font-size: 21px;
+  line-height: 28px;
+  font-weight: 750;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-hero h2 {
+  color: #fafafa;
+}
+
+.algoforge-github-hero p {
+  max-width: 285px;
+  margin: 9px auto 0;
+  color: #71717a;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-hero p {
+  color: #a1a1aa;
+}
+
+.algoforge-github-connect-button {
+  width: 100%;
+  height: 50px;
+  margin-top: 24px;
+  border: 0;
+  border-radius: 12px;
+  background: #18181b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.algoforge-github-connect-button:hover {
+  background: #27272a;
+  transform: translateY(-1px);
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-connect-button {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-connect-button:hover {
+  background: #ffffff;
+}
+
+.algoforge-github-note {
+  margin: 13px 5px 0;
+  color: #71717a;
+  font-size: 11px;
+  line-height: 17px;
+  text-align: center;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-note {
+  color: #a1a1aa;
+}
+
+.algoforge-github-problem {
+  padding: 14px 15px;
+  border: 1px solid #e4e4e7;
+  border-radius: 13px;
+  background: #fafafa;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-problem {
+  background: #191b21;
+  border-color: #2d3139;
+}
+
+.algoforge-github-problem span {
+  display: block;
+  margin-bottom: 5px;
+  color: #f97316;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.algoforge-github-problem strong {
+  display: block;
+  color: #18181b;
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 700;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-problem strong {
+  color: #f4f4f5;
+}
+
+.algoforge-github-description {
+  margin: 17px 2px 0;
+  color: #71717a;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+#algoforge-extension-root[data-theme="dark"]
+.algoforge-github-description {
+  color: #a1a1aa;
+}
+
+.github-panel-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.github-panel-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* =========================================================
    THEME ICON
 ========================================================= */
 
