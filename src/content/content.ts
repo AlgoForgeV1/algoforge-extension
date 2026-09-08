@@ -62,16 +62,35 @@ function getRoot(): HTMLElement {
    PROBLEM NUMBER + TITLE
 ======================================================= */
 
+function isElementVisible(element: Element): boolean {
+  const htmlElement = element as HTMLElement;
+  const style = window.getComputedStyle(htmlElement);
+  const rect = htmlElement.getBoundingClientRect();
+
+  return (
+    style.display !== "none" &&
+    style.visibility !== "hidden" &&
+    style.opacity !== "0" &&
+    rect.width > 0 &&
+    rect.height > 0
+  );
+}
+
+function getDocumentProblemTitle(): string {
+  return document.title
+    .replace(/\s*-\s*LeetCode.*$/i, "")
+    .replace(/\s*\|\s*LeetCode.*$/i, "")
+    .trim();
+}
+
 function getProblemNumberAndTitle(): {
   number: string;
   title: string;
 } {
   /*
-   * LeetCode has changed its DOM structure several times.
-   *
-   * We first check the known question-title selector,
-   * then h1 elements, then scan visible elements for
-   * the "3. Problem Title" pattern.
+   * LeetCode is a SPA. During navigation, old React nodes can
+   * temporarily remain in the DOM. Prefer visible nodes and use
+   * the current document title as the title fallback.
    */
 
   const possibleElements: Element[] = [];
@@ -80,108 +99,88 @@ function getProblemNumberAndTitle(): {
     '[data-cy="question-title"]'
   );
 
-  if (questionTitle) {
+  if (questionTitle && isElementVisible(questionTitle)) {
     possibleElements.push(questionTitle);
   }
 
   const h1Elements = document.querySelectorAll("h1");
 
   for (const element of Array.from(h1Elements)) {
-    possibleElements.push(element);
+    if (isElementVisible(element)) {
+      possibleElements.push(element);
+    }
   }
 
-  const titleCandidates =
-    document.querySelectorAll(
-      '[class*="title"], [class*="Title"]'
-    );
+  const titleCandidates = document.querySelectorAll(
+    '[class*="title"], [class*="Title"]'
+  );
 
   for (const element of Array.from(titleCandidates)) {
-    possibleElements.push(element);
+    if (isElementVisible(element)) {
+      possibleElements.push(element);
+    }
   }
 
   /*
-   * Try to find an element whose text actually contains
-   * the problem number.
+   * First choice: visible numbered problem title.
    */
 
   for (const element of possibleElements) {
-    const text =
-      element.textContent?.trim() || "";
-
-    const match = text.match(
-      /^(\d+)\.\s*(.+)$/
-    );
+    const text = element.textContent?.trim() || "";
+    const match = text.match(/^(\d+)\.\s*(.+)$/);
 
     if (match) {
       return {
         number: match[1],
-        title: match[2].trim()
+        title: match[2].trim(),
       };
     }
   }
 
   /*
-   * Fallback: scan visible text elements.
-   *
-   * This is particularly useful with the current
-   * LeetCode layout where the problem title can be
-   * rendered through nested components.
+   * Second choice: current browser title for the problem name,
+   * while looking for the number only in visible elements.
    */
 
-  const textElements =
-    document.querySelectorAll(
-      "div, span, a"
-    );
+  const currentTitle = getDocumentProblemTitle();
 
-  for (const element of Array.from(textElements)) {
-    const text =
-      element.textContent?.trim() || "";
+  const visibleTextElements = document.querySelectorAll(
+    "div, span, a"
+  );
 
-    /*
-     * Avoid huge containers. We only want short
-     * pieces of text that look like a problem title.
-     */
+  for (const element of Array.from(visibleTextElements)) {
+    if (!isElementVisible(element)) {
+      continue;
+    }
 
-    if (
-      text.length > 3 &&
-      text.length < 150
-    ) {
-      const match = text.match(
-        /^(\d+)\.\s*(.+)$/
-      );
+    const text = element.textContent?.trim() || "";
+
+    if (text.length > 3 && text.length < 150) {
+      const match = text.match(/^(\d+)\.\s*(.+)$/);
 
       if (match) {
         return {
           number: match[1],
-          title: match[2].trim()
+          title: currentTitle || match[2].trim(),
         };
       }
     }
   }
 
   /*
-   * Last fallback:
-   *
-   * Some LeetCode pages have the problem number
-   * available in the URL/page metadata.
+   * Last fallback: metadata for the numeric ID.
+   * This comes after visible DOM detection because stale SPA
+   * metadata can exist temporarily during navigation.
    */
 
-  const numberFromUrl =
-    extractProblemNumberFromUrl();
-
-  const rawTitle =
-    document.title
-      .replace(
-        /\s*-\s*LeetCode.*$/i,
-        ""
-      )
-      .trim();
+  const numberFromMetadata = extractProblemNumberFromUrl();
 
   return {
-    number: numberFromUrl || "—",
-    title: rawTitle
+    number: numberFromMetadata || "—",
+    title: currentTitle,
   };
 }
+
 
 /* =======================================================
    NUMBER FROM URL / METADATA
@@ -257,33 +256,31 @@ function getDifficulty(): string {
   ];
 
   for (const selector of selectors) {
-    const elements =
-      document.querySelectorAll(selector);
+    const elements = document.querySelectorAll(selector);
 
     for (const element of Array.from(elements)) {
-      const text =
-        element.textContent?.trim() || "";
+      if (!isElementVisible(element)) {
+        continue;
+      }
 
-      if (
-        /^(Easy|Medium|Hard)$/i.test(text)
-      ) {
+      const text = element.textContent?.trim() || "";
+
+      if (/^(Easy|Medium|Hard)$/i.test(text)) {
         return capitalize(text);
       }
     }
   }
 
-  /*
-   * Current LeetCode layout fallback.
-   */
-
-  const allElements =
-    document.querySelectorAll(
-      "span, div, button"
-    );
+  const allElements = document.querySelectorAll(
+    "span, div, button"
+  );
 
   for (const element of Array.from(allElements)) {
-    const text =
-      element.textContent?.trim() || "";
+    if (!isElementVisible(element)) {
+      continue;
+    }
+
+    const text = element.textContent?.trim() || "";
 
     if (
       text === "Easy" ||
@@ -296,6 +293,7 @@ function getDifficulty(): string {
 
   return "Unknown";
 }
+
 
 /* =======================================================
    LANGUAGE
@@ -311,15 +309,15 @@ function getSelectedLanguage(): string {
   ];
 
   for (const selector of selectors) {
-    const elements =
-      document.querySelectorAll(selector);
+    const elements = document.querySelectorAll(selector);
 
     for (const element of Array.from(elements)) {
-      const text =
-        element.textContent?.trim() || "";
+      if (!isElementVisible(element)) {
+        continue;
+      }
 
-      const language =
-        extractLanguage(text);
+      const text = element.textContent?.trim() || "";
+      const language = extractLanguage(text);
 
       if (language) {
         return language;
@@ -327,21 +325,17 @@ function getSelectedLanguage(): string {
     }
   }
 
-  /*
-   * Current editor header fallback.
-   */
-
-  const buttons =
-    document.querySelectorAll(
-      "button, [role='button']"
-    );
+  const buttons = document.querySelectorAll(
+    "button, [role='button']"
+  );
 
   for (const element of Array.from(buttons)) {
-    const text =
-      element.textContent?.trim() || "";
+    if (!isElementVisible(element)) {
+      continue;
+    }
 
-    const language =
-      extractLanguage(text);
+    const text = element.textContent?.trim() || "";
+    const language = extractLanguage(text);
 
     if (language) {
       return language;
@@ -350,6 +344,7 @@ function getSelectedLanguage(): string {
 
   return "Unknown";
 }
+
 
 /* =======================================================
    LANGUAGE HELPERS
@@ -1285,6 +1280,43 @@ function renderProblemChangePanel(): void {
   `;
 }
 
+function normalizeProblemSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function getProblemSlugFromUrl(url: string): string {
+  try {
+    const pathname = new URL(url).pathname;
+    const match = pathname.match(/^\/problems\/([^/]+)/i);
+    return match ? match[1] : "";
+  } catch {
+    return "";
+  }
+}
+
+function titleMatchesCurrentProblemUrl(
+  title: string,
+  url: string
+): boolean {
+  const slug = getProblemSlugFromUrl(url);
+
+  if (!slug || !title) {
+    return true;
+  }
+
+  const normalizedSlug = normalizeProblemSlug(slug);
+  const normalizedTitle = normalizeProblemSlug(title);
+
+  return (
+    normalizedTitle === normalizedSlug ||
+    normalizedTitle.includes(normalizedSlug) ||
+    normalizedSlug.includes(normalizedTitle)
+  );
+}
+
 function finishProblemChange(
   expectedUrl: string,
   version: number
@@ -1312,9 +1344,10 @@ function finishProblemChange(
     captureProblem();
 
   /*
-   * Wait for LeetCode's React tree to finish rendering.
-   * This prevents us from briefly capturing the previous
-   * problem or an empty title.
+   * Wait until the new React tree is rendered. Also verify that
+   * the captured title belongs to the CURRENT URL. This is the
+   * key protection against retaining #1 Two Sum after navigating
+   * to another LeetCode problem.
    */
 
   const titleLooksReady =
@@ -1324,12 +1357,19 @@ function finishProblemChange(
       "LeetCode - The World's Leading Online Programming Learning Platform";
 
   const metadataLooksReady =
-    problem.number !== "—" ||
-    problem.difficulty !== "Unknown" ||
+    problem.number !== "—" &&
+    problem.difficulty !== "Unknown" &&
     problem.language !== "Unknown";
 
+  const titleBelongsToCurrentRoute =
+    titleMatchesCurrentProblemUrl(
+      problem.title,
+      expectedUrl
+    );
+
   if (
-    !titleLooksReady &&
+    !titleLooksReady ||
+    !titleBelongsToCurrentRoute ||
     !metadataLooksReady
   ) {
     if (
@@ -1477,7 +1517,8 @@ function initialize(): void {
     getInitialTheme();
 
   /*
-   * Capture the initial problem immediately.
+   * Capture the initial problem, then take a second snapshot after
+   * LeetCode has finished mounting its React tree.
    */
 
   currentProblem =
@@ -1486,6 +1527,24 @@ function initialize(): void {
   renderLauncher();
 
   installRouteWatcher();
+
+  setTimeout(() => {
+    if (!isProblemPage()) {
+      return;
+    }
+
+    const latest = captureProblem();
+
+    if (
+      latest.title &&
+      titleMatchesCurrentProblemUrl(
+        latest.title,
+        window.location.href
+      )
+    ) {
+      currentProblem = latest;
+    }
+  }, 500);
 
   /*
    * Keep the captured metadata synchronized while the
